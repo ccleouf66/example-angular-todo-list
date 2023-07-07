@@ -1,91 +1,79 @@
 
-<!-- Toolbar -->
-<div class="toolbar" role="banner">
-  <span class="nav-title">Todo list</span>
-  <div class="spacer"></div>
-</div>
+<div class="bg-gray-100">
+  <!-- Toolbar -->
+  <nav class="shadow-md bg-gray-600 flex-wrap  py-6">
+    <div class="flex w-full flex-wrap items-center justify-between px-3">
+      <div class="!visible hidden flex-grow basis-[100%] items-center lg:!flex lg:basis-auto" id="navbarSupportedContent1" data-te-collapse-item>
+        <ul class="list-style-none mr-auto flex flex-col pl-0 lg:flex-row" data-te-navbar-nav-ref>
+          <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
+            <div class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400">
+              Todo list
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-<div class="content" role="main">
+  <div class="container mx-auto p-6" role="main">
 
-  <!-- Highlight Card -->
-  <div class="card highlight-card card-small">
+    <div class="py-24 sm:py-32">
+      <div class="mx-auto max-w-2xl lg:text-center">
+        <p class="mt-2 text-3xl font-bold tracking-tight text-indigo-600 sm:text-4xl">{{ title }}</p>
+      </div>
+    </div>
 
-    <svg id="rocket" xmlns="http://www.w3.org/2000/svg" width="101.678" height="101.678" viewBox="0 0 101.678 101.678">
-      <title>Rocket Ship</title>
-      <g id="Group_83" data-name="Group 83" transform="translate(-141 -696)">
-        <circle id="Ellipse_8" data-name="Ellipse 8" cx="50.839" cy="50.839" r="50.839" transform="translate(141 696)" fill="#dd0031"/>
-        <g id="Group_47" data-name="Group 47" transform="translate(165.185 720.185)">
-          <path id="Path_33" data-name="Path 33" d="M3.4,42.615a3.084,3.084,0,0,0,3.553,3.553,21.419,21.419,0,0,0,12.215-6.107L9.511,30.4A21.419,21.419,0,0,0,3.4,42.615Z" transform="translate(0.371 3.363)" fill="#fff"/>
-          <path id="Path_34" data-name="Path 34" d="M53.3,3.221A3.09,3.09,0,0,0,50.081,0,48.227,48.227,0,0,0,18.322,13.437c-6-1.666-14.991-1.221-18.322,7.218A33.892,33.892,0,0,1,9.439,25.1l-.333.666a3.013,3.013,0,0,0,.555,3.553L23.985,43.641a2.9,2.9,0,0,0,3.553.555l.666-.333A33.892,33.892,0,0,1,32.647,53.3c8.55-3.664,8.884-12.326,7.218-18.322A48.227,48.227,0,0,0,53.3,3.221ZM34.424,9.772a6.439,6.439,0,1,1,9.106,9.106,6.368,6.368,0,0,1-9.106,0A6.467,6.467,0,0,1,34.424,9.772Z" transform="translate(0 0.005)" fill="#fff"/>
-        </g>
-      </g>
-    </svg>
+    <!-- new task -->
+    <div class="rounded overflow-hidden border border-gray-300 bg-white p-4 justify-between leading-normal">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">New task</div>
+        <div class="text-gray-700 text-base">
 
-    <span>{{ title }}</span>
+          <form class="w-full max-w-lg" [formGroup]="applyForm" (submit)="createTask()">
+            <div class="flex flex-wrap -mx-3 mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                  Name
+                </label>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name" formControlName="name" type="text" placeholder="task name">
+              </div>
+              <div class="w-full md:w-1/2 px-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                  Description
+                </label>
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="description" formControlName="description" type="text" placeholder="task description">
+              </div>
+            </div>
+            <div class="md:flex">
+              <button class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+                Go
+              </button>
+            </div>
+
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- task list -->
+    <div class="flex content-around flex-wrap">
+      
+      <div *ngFor="let task of tasks" (click)="selectTask(task)" class="w-1/3 p-2">
+        <div class="rounded overflow-hidden border border-gray-300 bg-white p-4 justify-between leading-normal">
+          <div class="px-6 py-4">
+            <div class="font-bold text-xl mb-2">{{ task.name }}</div>
+            <p class="text-gray-700 text-base">
+              {{ task.description }}
+            </p>
+          </div>
+          <div class="px-6 pt-4 pb-2">
+            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ task.date | date }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
 
   </div>
-
-  <!-- Resources -->
-  <h2>Task list</h2>
-
-  <div class="card-container">
-
-    <mat-selection-list #tasksList [multiple]="false">
-      <mat-list-option *ngFor="let task of tasks" [value]="task">
-        {{ task.name }}
-      </mat-list-option>
-    </mat-selection-list>
-
-  </div>
-
-  <mat-card class="example-card" *ngIf="tasksList.selectedOptions.hasValue()">
-    <mat-card-header>
-      <mat-card-subtitle>{{ tasksList.selectedOptions.selected[0].value.date | date }}</mat-card-subtitle>
-      <mat-card-title>{{ tasksList.selectedOptions.selected[0].value.name }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>{{ tasksList.selectedOptions.selected[0].value.description }}</p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>Delete</button>
-    </mat-card-actions>
-  </mat-card>
-
-  <mat-card class="example-card">
-    <mat-card-header>
-      <mat-card-title>New task</mat-card-title>
-    </mat-card-header>
-    
-    <form [formGroup]="applyForm" (submit)="createTask()">
-      <mat-card-content>
-    
-        <label for="name">Name</label>
-        <input id="name" type="text" formControlName="name">
-
-        <label for="description">Description</label>
-        <input id="description" type="text" formControlName="description">
-
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button type="submit" class="primary">Create</button>
-      </mat-card-actions>
-    </form>
-
-  </mat-card>
-  
-
-  <input type="hidden" #selection>
-
-  <div class="card-container">
-    <button class="card card-small" (click)="selection.value = 'build'" tabindex="0">
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-      <span>Create</span>
-    </button>
-  </div>
-
-  <svg id="clouds" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677" viewBox="0 0 2611.084 485.677">
-    <title>Gray Clouds Background</title>
-    <path id="Path_39" data-name="Path 39" d="M2379.709,863.793c10-93-77-171-168-149-52-114-225-105-264,15-75,3-140,59-152,133-30,2.83-66.725,9.829-93.5,26.25-26.771-16.421-63.5-23.42-93.5-26.25-12-74-77-130-152-133-39-120-212-129-264-15-54.084-13.075-106.753,9.173-138.488,48.9-31.734-39.726-84.4-61.974-138.487-48.9-52-114-225-105-264,15a162.027,162.027,0,0,0-103.147,43.044c-30.633-45.365-87.1-72.091-145.206-58.044-52-114-225-105-264,15-75,3-140,59-152,133-53,5-127,23-130,83-2,42,35,72,70,86,49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33,61.112,8.015,113.854-5.72,150.492-29.764a165.62,165.62,0,0,0,110.861-3.236c47,94,178,113,251,33,31.385,4.116,60.563,2.495,86.487-3.311,25.924,5.806,55.1,7.427,86.488,3.311,73,80,204,61,251-33a165.625,165.625,0,0,0,120,0c51,13,108,15,157-5a147.188,147.188,0,0,0,33.5-18.694,147.217,147.217,0,0,0,33.5,18.694c49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33C2446.709,1093.793,2554.709,922.793,2379.709,863.793Z" transform="translate(142.69 -634.312)" fill="#eee"/>
-  </svg>
-
 </div>
