@@ -38,7 +38,6 @@ export class AppComponent {
 
   createTask() {
     this.taskService.createTask(this.applyForm.value.name!, this.applyForm.value.description!).subscribe((task: Task) => {
-      console.log(task.name + "created");
       this.getTasks();
     })
   }
