@@ -28,4 +28,14 @@ export class TaskService {
     }
     return this.http.post<Task>(this.apiUrl, body);
   }
+
+  deleteTask(taskID: string): Observable<Task>{
+    let body: Task = {
+      id: taskID,
+      name: "",
+      description: "",
+      date: new Date()
+    }
+    return this.http.delete<Task>(this.apiUrl, {body: body});
+  }
 }

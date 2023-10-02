@@ -41,4 +41,10 @@ export class AppComponent {
       this.getTasks();
     })
   }
+
+  deleteTask(taskID: string) {
+    this.taskService.deleteTask(taskID).subscribe(() => {
+      this.getTasks();
+    })
+  }
 }
