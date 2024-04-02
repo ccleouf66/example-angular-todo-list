@@ -13,7 +13,7 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  apiUrl = 'https://example-go-todo-list-api-ccleouf66.app.codenito.io/task'
+  apiUrl = 'http://37.59.28.30:8080/task'
 
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(this.apiUrl);
